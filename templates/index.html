@@ -1,36 +1,185 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Hoppets Product Manager</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <span class="navbar-brand">
-            🐾 Hoppets Product Manager
-        </span>
+    <!-- NAVBAR -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+
+                <img src="{{ url_for('static', filename='images/logo-negro.png') }}"
+                    alt="Hoppets Logo">
+
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Catálogo</a></li>
+                <li><a href="#">Productos</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+
+        </nav>
+
+    </header>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Accesorios únicos para mascotas únicas
+            </h1>
+
+            <p>
+                Diseñamos bandanas, camas y accesorios personalizados
+                para que tu mascota luzca tan especial como es.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="btn-primary">
+                    Ver catálogo
+                </a>
+
+                <a href="#" class="btn-secondary">
+                    Contactar
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+
+            <img src="{{ url_for('static', filename='images/hero-samoyedo.jpeg') }}"
+                alt="Mascota Hoppets">
+
+        </div>
+
+    </section>
+
+    <!-- PRODUCTOS -->
+
+    <section class="productos">
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/bandana-love.jpeg') }}"
+                alt="Bandanas">
+
+            <h3>Bandanas</h3>
+
+            <p>
+                Diseños personalizados para perros y gatos.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/cama-sandia.jpeg') }}"
+                alt="Camas">
+
+            <h3>Camas</h3>
+
+            <p>
+                Comodidad y descanso para tu mascota.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/gato-cama.jpeg') }}"
+                alt="Accesorios">
+
+            <h3>Accesorios</h3>
+
+            <p>
+                Productos exclusivos para consentir a tu mejor amigo.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- SOBRE NOSOTROS -->
+
+    <section class="about">
+
+    <div class="about-container">
+
+        <h2>¿Quiénes somos?</h2>
+
+        <p>
+            Hoppets nace del amor por las mascotas y del deseo de crear
+            accesorios únicos, cómodos y personalizados para cada compañero
+            de vida.
+
+            Creemos que cada mascota tiene una personalidad especial y merece
+            productos diseñados con cariño, calidad y atención al detalle.
+        </p>
+
     </div>
-</nav>
 
-<div class="container mt-5">
+</section>
 
-    <h1>Bienvenido a Hoppets</h1>
+    <!-- FOOTER -->
 
-    <p>
-        Sistema web para la gestión y consulta de productos para mascotas.
-    </p>
+    <footer>
 
-    <button class="btn btn-primary">
-        Ver Catálogo
-    </button>
+        <div class="footer-content">
 
-</div>
+            <img src="{{ url_for('static', filename='images/simbolo-negro.png') }}"
+                alt="Hoppets">
+
+            <p>
+                © 2026 Hoppets. Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </footer>
 
 </body>
+
 </html>
+
+<section class="benefits">
+
+    <div class="benefit">
+        🐾
+        <h3>Diseños personalizados</h3>
+        <p>Creados especialmente para cada mascota.</p>
+    </div>
+
+    <div class="benefit">
+        🚚
+        <h3>Envíos nacionales</h3>
+        <p>Entrega rápida y segura.</p>
+    </div>
+
+    <div class="benefit">
+        ❤️
+        <h3>Hecho con amor</h3>
+        <p>Productos pensados para su bienestar.</p>
+    </div>
+
+</section>
