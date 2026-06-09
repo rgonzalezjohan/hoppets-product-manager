@@ -4,182 +4,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Hoppets crea accesorios personalizados, cómodos y alegres para perros y gatos. Bandanas, camas y productos especiales para consentir a tu mascota.">
 
-    <title>Hoppets Product Manager</title>
+    <title>Hoppets | Accesorios únicos para mascotas únicas</title>
 
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body data-whatsapp-enabled="true" data-whatsapp-number="573001234567">
+    <header class="site-header">
+        <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-    <!-- NAVBAR -->
+        <div class="promo-bar">
+            <span>Envíos nacionales</span>
+            <strong>Accesorios hechos con amor para mascotas felices</strong>
+        </div>
 
-    <header>
-
-        <nav class="navbar">
-
-            <div class="logo">
-
-                <img src="{{ url_for('static', filename='images/logo-negro.png') }}"
-                    alt="Hoppets Logo">
-
-            </div>
+        <nav class="navbar" aria-label="Navegación principal">
+            <a class="logo" href="#" aria-label="Inicio Hoppets">
+                <img src="{{ url_for('static', filename='images/logo-negro.png') }}" alt="Hoppets">
+            </a>
 
             <ul class="nav-links">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Catálogo</a></li>
-                <li><a href="#">Productos</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Catálogo</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
             </ul>
 
+            <a class="nav-cta" href="#productos">Ver productos</a>
         </nav>
-
     </header>
 
-    <!-- HERO -->
+    <main id="contenido">
+        <section class="hero section-shell" id="inicio">
+            <div class="hero-content" data-animate="slide-in">
+                <p class="eyebrow">Diseño personalizado para perros y gatos</p>
+                <h1>Accesorios únicos para mascotas únicas</h1>
+                <p class="hero-copy">
+                    Creamos bandanas, camas y accesorios llenos de color para que tu mejor amigo
+                    se vea increíble, descanse feliz y lleve su personalidad a todas partes.
+                </p>
 
-    <section class="hero">
+                <div class="hero-actions" aria-label="Acciones principales">
+                    <a href="#productos" class="btn btn-primary">Ver catálogo</a>
+                    <a href="#contacto" class="btn btn-secondary">Contactar</a>
+                </div>
 
-        <div class="hero-content">
-
-            <h1>
-                Accesorios únicos para mascotas únicas
-            </h1>
-
-            <p>
-                Diseñamos bandanas, camas y accesorios personalizados
-                para que tu mascota luzca tan especial como es.
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="#" class="btn-primary">
-                    Ver catálogo
-                </a>
-
-                <a href="#" class="btn-secondary">
-                    Contactar
-                </a>
-
+                <div class="trust-row" aria-label="Beneficios destacados">
+                    <span>Personalización</span>
+                    <span>Calidad premium</span>
+                    <span>Hecho en Colombia</span>
+                </div>
             </div>
 
-        </div>
+            <div class="hero-visual" aria-label="Mascota usando productos Hoppets" data-animate="fade-in">
+                <span class="decor decor-paw">✦</span>
+                <span class="decor decor-dot"></span>
+                <img src="{{ url_for('static', filename='images/hero-samoyedo.jpeg') }}"
+                    alt="Perro feliz representando la experiencia Hoppets">
+                <div class="floating-card">
+                    <strong>+100</strong>
+                    <span>Mascotas consentidas</span>
+                </div>
+            </div>
+        </section>
 
-        <div class="hero-image">
+        <section class="about section-shell" id="sobre-hoppets">
+            <div class="section-heading" data-animate="fade-up">
+                <p class="eyebrow">Sobre Hoppets</p>
+                <h2>Diseñamos desde el amor, la comodidad y el estilo</h2>
+            </div>
 
-            <img src="{{ url_for('static', filename='images/hero-samoyedo.jpeg') }}"
-                alt="Mascota Hoppets">
+            <div class="about-grid">
+                <article class="about-story" data-animate="slide-in">
+                    <h3>¿Quiénes somos?</h3>
+                    <p>
+                        Hoppets nace del amor por las mascotas y del deseo de crear accesorios
+                        únicos, cómodos y personalizados para cada compañero de vida.
+                    </p>
+                    <p>
+                        Creemos que cada mascota tiene una personalidad especial y merece productos
+                        diseñados con cariño, calidad y atención al detalle.
+                    </p>
+                </article>
 
-        </div>
+                <div class="values-grid" aria-label="Valores de Hoppets">
+                    <article class="value-card" data-animate="fade-up">
+                        <span class="icon-bubble">❤</span>
+                        <h3>Amor real</h3>
+                        <p>Productos pensados para el bienestar y la felicidad diaria.</p>
+                    </article>
+                    <article class="value-card" data-animate="fade-up">
+                        <span class="icon-bubble">✂</span>
+                        <h3>Diseño único</h3>
+                        <p>Detalles personalizados que reflejan la personalidad de cada mascota.</p>
+                    </article>
+                    <article class="value-card" data-animate="fade-up">
+                        <span class="icon-bubble">★</span>
+                        <h3>Calidad premium</h3>
+                        <p>Materiales cómodos, resistentes y listos para acompañar muchas aventuras.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-    </section>
+        <section class="trust-metrics section-shell" aria-labelledby="metricas-title">
+            <div class="metrics-panel" data-animate="fade-up">
+                <div class="section-heading">
+                    <p class="eyebrow">Confianza Hoppets</p>
+                    <h2 id="metricas-title">Pequeños detalles, grandes momentos felices</h2>
+                </div>
 
-    <!-- PRODUCTOS -->
+                <div class="metrics-grid">
+                    <article class="metric-card">
+                        <strong><span data-counter data-target="100" data-prefix="+">0</span></strong>
+                        <p>Mascotas felices</p>
+                    </article>
 
-    <section class="productos">
+                    <article class="metric-card">
+                        <strong><span data-counter data-target="50" data-prefix="+">0</span></strong>
+                        <p>Diseños personalizados</p>
+                    </article>
 
-        <div class="card">
+                    <article class="metric-card">
+                        <strong><span data-counter data-target="4">0</span></strong>
+                        <p>Años creando accesorios</p>
+                    </article>
 
-            <img src="{{ url_for('static', filename='images/bandana-love.jpeg') }}"
-                alt="Bandanas">
+                    <article class="metric-card">
+                        <strong><span data-counter data-target="100" data-suffix="%">0</span></strong>
+                        <p>Hecho con amor</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-            <h3>Bandanas</h3>
+        <section class="products section-shell" id="productos">
+            <div class="section-heading centered" data-animate="fade-up">
+                <p class="eyebrow">Favoritos Hoppets</p>
+                <h2>Productos destacados para consentirlos con estilo</h2>
+            </div>
 
-            <p>
-                Diseños personalizados para perros y gatos.
-            </p>
+            <div class="product-grid">
+                <article class="product-card" data-animate="fade-up">
+                    <img src="{{ url_for('static', filename='images/bandana-love.jpeg') }}"
+                        alt="Bandana personalizada Hoppets">
+                    <div class="product-body">
+                        <span class="product-tag">Personalizable</span>
+                        <h3>Bandanas</h3>
+                        <p>Diseños personalizados para perros y gatos con colores alegres y acabados cómodos.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Desde $25.000 COP</span>
+                            <a class="product-whatsapp"
+                                href="https://wa.me/573001234567?text=Hola%20Hoppets%2C%20quiero%20solicitar%20una%20bandana"
+                                target="_blank" rel="noopener">Solicitar por WhatsApp</a>
+                        </div>
+                    </div>
+                </article>
 
-        </div>
+                <article class="product-card" data-animate="fade-up">
+                    <img src="{{ url_for('static', filename='images/cama-sandia.jpeg') }}"
+                        alt="Cama para mascota con diseño de sandía">
+                    <div class="product-body">
+                        <span class="product-tag">Descanso feliz</span>
+                        <h3>Camas</h3>
+                        <p>Comodidad, soporte y diseños divertidos para que cada siesta sea especial.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Desde $85.000 COP</span>
+                            <a class="product-whatsapp"
+                                href="https://wa.me/573001234567?text=Hola%20Hoppets%2C%20quiero%20solicitar%20una%20cama"
+                                target="_blank" rel="noopener">Solicitar por WhatsApp</a>
+                        </div>
+                    </div>
+                </article>
 
-        <div class="card">
+                <article class="product-card" data-animate="fade-up">
+                    <img src="{{ url_for('static', filename='images/gato-cama.jpeg') }}"
+                        alt="Gato descansando en una cama Hoppets">
+                    <div class="product-body">
+                        <span class="product-tag">Exclusivos</span>
+                        <h3>Accesorios</h3>
+                        <p>Productos únicos para consentir a tu mejor amigo con detalles llenos de personalidad.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Desde $18.000 COP</span>
+                            <a class="product-whatsapp"
+                                href="https://wa.me/573001234567?text=Hola%20Hoppets%2C%20quiero%20solicitar%20un%20accesorio"
+                                target="_blank" rel="noopener">Solicitar por WhatsApp</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
 
-            <img src="{{ url_for('static', filename='images/cama-sandia.jpeg') }}"
-                alt="Camas">
+        <section class="benefits" id="beneficios">
+            <div class="section-shell benefits-inner">
+                <div class="section-heading" data-animate="fade-up">
+                    <p class="eyebrow">Por qué elegirnos</p>
+                    <h2>Una experiencia pensada para mascotas y familias</h2>
+                </div>
 
-            <h3>Camas</h3>
+                <div class="benefits-grid">
+                    <article class="benefit" data-animate="fade-up">
+                        <span class="benefit-icon">🐾</span>
+                        <h3>Diseños personalizados</h3>
+                        <p>Creados especialmente para que cada mascota luzca auténtica.</p>
+                    </article>
 
-            <p>
-                Comodidad y descanso para tu mascota.
-            </p>
+                    <article class="benefit" data-animate="fade-up">
+                        <span class="benefit-icon">🚚</span>
+                        <h3>Envíos nacionales</h3>
+                        <p>Entrega rápida, segura y lista para sorprender en casa.</p>
+                    </article>
 
-        </div>
+                    <article class="benefit" data-animate="fade-up">
+                        <span class="benefit-icon">💛</span>
+                        <h3>Hecho con amor</h3>
+                        <p>Cada producto se crea pensando en comodidad, ternura y durabilidad.</p>
+                    </article>
 
-        <div class="card">
+                    <article class="benefit" data-animate="fade-up">
+                        <span class="benefit-icon">✨</span>
+                        <h3>Estilo memorable</h3>
+                        <p>Colores, formas y texturas que convierten lo cotidiano en especial.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-            <img src="{{ url_for('static', filename='images/gato-cama.jpeg') }}"
-                alt="Accesorios">
+        <section class="testimonials section-shell" aria-labelledby="testimonios-title">
+            <div class="section-heading centered" data-animate="fade-up">
+                <p class="eyebrow">Historias felices</p>
+                <h2 id="testimonios-title">Familias que ya viven la experiencia Hoppets</h2>
+            </div>
 
-            <h3>Accesorios</h3>
+            <div class="testimonial-carousel" data-animate="fade-up" aria-roledescription="carrusel">
+                <div class="testimonial-track" aria-live="polite">
+                <article class="testimonial-card is-active">
+                    <p>“La bandana quedó hermosa, los colores son vivos y se nota el cuidado en cada detalle.”</p>
+                    <strong>Laura y Milo</strong>
+                </article>
 
-            <p>
-                Productos exclusivos para consentir a tu mejor amigo.
-            </p>
+                <article class="testimonial-card featured">
+                    <p>“La cama se volvió el lugar favorito de mi gato. Es cómoda, bonita y fácil de ubicar en casa.”</p>
+                    <strong>Camila y Nube</strong>
+                </article>
 
-        </div>
+                <article class="testimonial-card">
+                    <p>“Me encantó poder pedir algo personalizado. Hoppets entiende que nuestras mascotas son familia.”</p>
+                    <strong>Andrés y Lola</strong>
+                </article>
+                </div>
 
-    </section>
+                <div class="testimonial-controls" aria-label="Controles de testimonios">
+                    <button class="carousel-btn" type="button" data-testimonial-prev aria-label="Testimonio anterior">‹</button>
+                    <div class="testimonial-dots" aria-label="Seleccionar testimonio"></div>
+                    <button class="carousel-btn" type="button" data-testimonial-next aria-label="Siguiente testimonio">›</button>
+                </div>
+            </div>
+        </section>
 
-    <!-- SOBRE NOSOTROS -->
+        <section class="gallery section-shell" aria-labelledby="galeria-title">
+            <div class="section-heading" data-animate="fade-up">
+                <p class="eyebrow">Galería</p>
+                <h2 id="galeria-title">Momentos con color, ternura y mucha personalidad</h2>
+            </div>
 
-    <section class="about">
+            <div class="gallery-grid" data-animate="fade-up">
+                <button class="gallery-item gallery-large" type="button">
+                    <img src="{{ url_for('static', filename='images/hero-samoyedo.jpeg') }}"
+                        alt="Perro feliz de Hoppets">
+                </button>
+                <button class="gallery-item" type="button">
+                    <img src="{{ url_for('static', filename='images/bandana-love.jpeg') }}"
+                        alt="Bandana Hoppets con diseño amoroso">
+                </button>
+                <button class="gallery-item" type="button">
+                    <img src="{{ url_for('static', filename='images/cama-sandia.jpeg') }}"
+                        alt="Cama Hoppets con forma de sandía">
+                </button>
+                <button class="gallery-item" type="button">
+                    <img src="{{ url_for('static', filename='images/gato-cama.jpeg') }}"
+                        alt="Gato descansando en producto Hoppets">
+                </button>
+            </div>
+        </section>
 
-    <div class="about-container">
+        <section class="final-cta section-shell" id="contacto" data-animate="fade-up">
+            <div class="final-cta-content">
+                <p class="eyebrow">Hagamos algo especial</p>
+                <h2>Tu mascota merece un accesorio tan único como su personalidad</h2>
+                <p>
+                    Escríbenos y creemos juntos una pieza cómoda, alegre y diseñada con todo el amor Hoppets.
+                </p>
+                <div class="hero-actions">
+                    <a href="#productos" class="btn btn-primary">Explorar productos</a>
+                    <a href="mailto:hola@hoppets.com" class="btn btn-light">Escribir a Hoppets</a>
+                </div>
+            </div>
+        </section>
+    </main>
 
-        <h2>¿Quiénes somos?</h2>
-
-        <p>
-            Hoppets nace del amor por las mascotas y del deseo de crear
-            accesorios únicos, cómodos y personalizados para cada compañero
-            de vida.
-
-            Creemos que cada mascota tiene una personalidad especial y merece
-            productos diseñados con cariño, calidad y atención al detalle.
-        </p>
-
-    </div>
-
-</section>
-
-    <!-- FOOTER -->
-
-    <footer>
-
+    <footer class="site-footer">
         <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" aria-label="Inicio Hoppets">
+                    <img src="{{ url_for('static', filename='images/simbolo-negro.png') }}" alt="Símbolo Hoppets">
+                </a>
+                <strong>Hoppets</strong>
+                <p>Accesorios personalizados para mascotas únicas.</p>
+            </div>
 
-            <img src="{{ url_for('static', filename='images/simbolo-negro.png') }}"
-                alt="Hoppets">
+            <nav class="footer-links" aria-label="Enlaces rápidos">
+                <h2>Explorar</h2>
+                <a href="#inicio">Inicio</a>
+                <a href="#productos">Catálogo</a>
+                <a href="#beneficios">Beneficios</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
 
-            <p>
-                © 2026 Hoppets. Todos los derechos reservados.
-            </p>
+            <div class="footer-contact">
+                <h2>Contacto</h2>
+                <a href="mailto:hola@hoppets.com">hola@hoppets.com</a>
+                <a href="tel:+573001234567">+57 300 123 4567</a>
+                <p>Colombia · Envíos nacionales</p>
+            </div>
 
+            <div class="footer-social">
+                <h2>Síguenos</h2>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram de Hoppets">IG</a>
+                    <a href="#" aria-label="Facebook de Hoppets">FB</a>
+                    <a href="#" aria-label="TikTok de Hoppets">TT</a>
+                </div>
+                <a class="footer-cta" href="#contacto">Crear accesorio</a>
+            </div>
+
+            <p class="copyright">© 2026 Hoppets. Todos los derechos reservados.</p>
         </div>
-
     </footer>
 
+    <a class="whatsapp-float" href="https://wa.me/573001234567?text=Hola%20Hoppets%2C%20quiero%20conocer%20sus%20productos"
+        target="_blank" rel="noopener" aria-label="Escribir a Hoppets por WhatsApp">
+        <span aria-hidden="true">WA</span>
+    </a>
+
+    <div class="lightbox" role="dialog" aria-modal="true" aria-label="Galería ampliada" aria-hidden="true">
+        <button class="lightbox-close" type="button" aria-label="Cerrar galería">×</button>
+        <button class="lightbox-nav lightbox-prev" type="button" aria-label="Imagen anterior">‹</button>
+        <figure>
+            <img src="{{ url_for('static', filename='images/hero-samoyedo.jpeg') }}" alt="">
+            <figcaption></figcaption>
+        </figure>
+        <button class="lightbox-nav lightbox-next" type="button" aria-label="Imagen siguiente">›</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 </body>
 
 </html>
-
-<section class="benefits">
-
-    <div class="benefit">
-        🐾
-        <h3>Diseños personalizados</h3>
-        <p>Creados especialmente para cada mascota.</p>
-    </div>
-
-    <div class="benefit">
-        🚚
-        <h3>Envíos nacionales</h3>
-        <p>Entrega rápida y segura.</p>
-    </div>
-
-    <div class="benefit">
-        ❤️
-        <h3>Hecho con amor</h3>
-        <p>Productos pensados para su bienestar.</p>
-    </div>
-
-</section>
