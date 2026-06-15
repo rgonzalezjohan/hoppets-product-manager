@@ -153,53 +153,44 @@
             </div>
 
             <div class="product-grid">
-                <article class="product-card" data-animate="fade-up">
-                    <img src="{{ url_for('static', filename='images/bandana-love.jpeg') }}"
-                        alt="Bandana personalizada Hoppets">
-                    <div class="product-body">
-                        <span class="product-tag">Personalizable</span>
-                        <h3>Bandanas</h3>
-                        <p>Diseños personalizados para perros y gatos con colores alegres y acabados cómodos.</p>
-                        <div class="product-footer">
-                            <span class="product-price">Desde $12.000 COP</span>
-                            <a class="product-whatsapp"
-                                href="https://wa.me/573108998430?text=Hola%20Hoppets%2C%20quiero%20solicitar%20una%20bandana"
-                                target="_blank" rel="noopener">Solicitar por WhatsApp</a>
-                        </div>
-                    </div>
-                </article>
+                {% for producto in productos %}
+<article class="product-card" data-animate="fade-up">
 
-                <article class="product-card" data-animate="fade-up">
-                    <img src="{{ url_for('static', filename='images/cama-sandia.jpeg') }}"
-                        alt="Cama para mascota con diseño de sandía">
-                    <div class="product-body">
-                        <span class="product-tag">Descanso feliz</span>
-                        <h3>Camas</h3>
-                        <p>Comodidad, soporte y diseños divertidos para que cada siesta sea especial.</p>
-                        <div class="product-footer">
-                            <span class="product-price">Desde $45.000 COP</span>
-                            <a class="product-whatsapp"
-                                href="https://wa.me/573108998430?text=Hola%20Hoppets%2C%20quiero%20solicitar%20una%20cama"
-                                target="_blank" rel="noopener">Solicitar por WhatsApp</a>
-                        </div>
-                    </div>
-                </article>
+<img
+    src="{{ url_for('static', filename='images/' + producto['imagen']) }}"
+    alt="{{ producto['nombre'] }}"
+>
+                <div class="product-body">
 
-                <article class="product-card" data-animate="fade-up">
-                    <img src="{{ url_for('static', filename='images/gato-cama.jpeg') }}"
-                        alt="Gato descansando en una cama Hoppets">
-                    <div class="product-body">
-                        <span class="product-tag">Exclusivos</span>
-                        <h3>Accesorios</h3>
-                        <p>Productos únicos para consentir a tu mejor amigo con detalles llenos de personalidad.</p>
-                        <div class="product-footer">
-                            <span class="product-price">Desde $20.000 COP</span>
-                            <a class="product-whatsapp"
-                                href="https://wa.me/573108998430?text=Hola%20Hoppets%2C%20quiero%20solicitar%20un%20accesorio"
-                                target="_blank" rel="noopener">Solicitar por WhatsApp</a>
-                        </div>
-                    </div>
-                </article>
+        <span class="product-tag">
+            Hoppets
+        </span>
+
+        <h3>{{ producto['nombre'] }}</h3>
+
+        <p>{{ producto['descripcion'] }}</p>
+
+        <div class="product-footer">
+
+            <span class="product-price">
+                ${{ "{:,.0f}".format(producto['precio']) }} COP
+            </span>
+
+            <a
+                class="product-whatsapp"
+                href="https://wa.me/573108998430?text=Hola%20Hoppets,%20quiero%20información%20sobre%20{{ producto['nombre'] }}"
+                target="_blank"
+                rel="noopener"
+            >
+                Solicitar por WhatsApp
+            </a>
+
+        </div>
+
+    </div>
+
+     </article>
+{% endfor %}
             </div>
         </section>
 
