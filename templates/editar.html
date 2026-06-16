@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Editar Producto</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f7fa;
+    margin:0;
+}
+
+.container{
+    max-width:700px;
+    margin:50px auto;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+h1{
+    text-align:center;
+    color:#1c274c;
+    margin-bottom:30px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+.btn{
+    width:100%;
+    margin-top:25px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.volver{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    text-decoration:none;
+    color:#1c274c;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>✏️ Editar Producto</h1>
+
+<form method="POST" enctype="multipart/form-data">
+
+<label>Nombre</label>
+<input
+type="text"
+name="nombre"
+value="{{ producto['nombre'] }}"
+required>
+
+<label>Descripción</label>
+<input
+type="text"
+name="descripcion"
+value="{{ producto['descripcion'] }}"
+required>
+
+<label>Precio</label>
+<input
+type="number"
+name="precio"
+value="{{ producto['precio'] }}"
+required>
+
+<label>Imagen actual</label>
+
+<img
+    src="{{ url_for('static', filename='uploads/' + producto['imagen']) }}"
+    style="width:200px;border-radius:10px;margin-bottom:15px;display:block;"
+>
+
+<input
+    type="text"
+    value="{{ producto['imagen'] }}"
+    readonly
+>
+
+<label>Nueva imagen (opcional)</label>
+
+<input
+    type="file"
+    name="imagen"
+    accept="image/*"
+>
+
+<button class="btn" type="submit">
+Guardar Cambios
+</button>
+
+</form>
+
+<a href="/admin" class="volver">
+← Volver al panel
+</a>
+
+</div>
+</div>
+
+</body>
+</html>

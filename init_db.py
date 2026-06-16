@@ -2,7 +2,7 @@ import sqlite3
 
 conn = sqlite3.connect("database/products.db")
 cursor = conn.cursor()
-cursor.execute("DELETE FROM productos")
+#cursor.execute("DELETE FROM productos")
 
 cursor = conn.cursor()
 
@@ -12,9 +12,17 @@ CREATE TABLE IF NOT EXISTS productos (
     nombre TEXT NOT NULL,
     descripcion TEXT NOT NULL,
     precio INTEGER NOT NULL,
-    imagen TEXT NOT NULL
+    imagen TEXT NOT NULL,
+    activo INTEGER DEFAULT 1
 )
 """)
+try:
+    cursor.execute("""
+        ALTER TABLE productos
+        ADD COLUMN activo INTEGER DEFAULT 1
+    """)
+except:
+    pass
 
 cursor.execute("""
 INSERT INTO productos (nombre, descripcion, precio, imagen)
