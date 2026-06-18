@@ -63,14 +63,27 @@ td{
     font-weight:bold;
 }
 
+.logo-admin{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.logo-admin img{
+    width:220px;
+    max-width:100%;
+}
 </style>
 
 </head>
 <body>
 
-<div class="container">
+<div class="logo-admin">
+    <img
+        src="{{ url_for('static', filename='images/logo-negro.png') }}"
+        alt="Hoppets">
+</div>
 
-<h1>📦 Productos Ocultos</h1>
+<h1>Productos Ocultos</h1>
 
 <a href="/admin" class="volver">
 ← Volver al Panel

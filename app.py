@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 import os
 import sqlite3
 
@@ -310,6 +310,8 @@ def eliminar(id):
 
     eliminar_producto(id)
 
+    flash("🗑️ Producto eliminado correctamente", "success")
+
     return redirect("/admin")
 
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
@@ -370,6 +372,8 @@ def editar(id):
         conn.commit()
         conn.close()
 
+        flash("✏️ Producto actualizado correctamente", "success")
+
         return redirect("/admin")
 
     conn.close()
@@ -408,7 +412,12 @@ def agregar():
             nombre_imagen
         )
 
-        return redirect("/")
+        flash(
+    "✅ Producto agregado correctamente",
+    "success"
+     )
+
+        return redirect("/admin")
 
     return render_template("agregar.html")
 
@@ -433,7 +442,9 @@ def restaurar(id):
 
     restaurar_producto(id)
 
-    return redirect("/ocultos")
+    flash("♻️ Producto restaurado correctamente", "success")
+
+    return redirect("/admin")
 
 @app.route("/usuarios")
 def usuarios():
@@ -497,6 +508,8 @@ def cambiar_rol(id):
     conn.commit()
     conn.close()
 
+    flash("🔄 Rol actualizado correctamente", "success")
+
     return redirect("/usuarios")
 
 
@@ -527,7 +540,19 @@ def login():
             session["usuario"] = usuario_db["usuario"]
             session["rol"] = usuario_db["rol"]
 
+            flash(
+                "✅ Bienvenido al panel administrativo",
+                "success"
+            )
+
             return redirect("/admin")
+
+        else:
+
+            flash(
+                "❌ Usuario o contraseña incorrectos",
+                "error"
+            )
 
     return render_template("login.html")
 
@@ -535,6 +560,11 @@ def login():
 def logout():
 
     session.clear()
+
+    flash(
+        "✅ Sesión cerrada correctamente",
+        "success"
+    )
 
     return redirect("/login")
 
@@ -556,6 +586,8 @@ def crear_usuario_web():
         rol = request.form["rol"]
 
         crear_usuario(usuario,password,rol)
+
+        flash("👤 Usuario creado correctamente", "success")
 
         return redirect("/usuarios")
 
@@ -587,6 +619,8 @@ def password(id):
         cambiar_password(id, nueva_password)
 
         conn.close()
+
+        flash("🔑 Contraseña actualizada correctamente", "success")
 
         return redirect("/usuarios")
 

@@ -55,13 +55,29 @@ button:hover{
     opacity:.9;
 }
 
+.logo-admin{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.logo-admin img{
+    width:220px;
+    max-width:100%;
+}
+
 </style>
 </head>
 <body>
 
 <div class="card">
 
-<h1>➕ Nuevo Usuario</h1>
+    <div class="logo-admin">
+        <img
+            src="{{ url_for('static', filename='images/logo-negro.png') }}"
+            alt="Hoppets">
+    </div>
+
+    <h1>Crear Usuario</h1>
 
 <form method="POST">
 

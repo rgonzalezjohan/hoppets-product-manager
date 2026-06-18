@@ -68,6 +68,39 @@ td{
     margin-bottom:20px;
 }
 
+.logo-admin{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.logo-admin img{
+    width:220px;
+    max-width:100%;
+}
+
+.header-usuarios{
+    width:80%;
+    margin:20px auto 30px auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header-usuarios h1{
+    margin:0;
+}
+
+.flash-success{
+    background:#d4edda;
+    color:#155724;
+    border:1px solid #28a745;
+    padding:15px;
+    border-radius:12px;
+    margin:20px auto;
+    max-width:900px;
+    text-align:center;
+    font-weight:bold;
+}
 </style>
 
 </head>
@@ -75,13 +108,29 @@ td{
 
 <div class="container">
 
-<div class="top">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <div class="flash-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
 
-<h1>👤 Usuarios Administradores</h1>
+<div class="logo-admin">
+    <img
+        src="{{ url_for('static', filename='images/logo-negro.png') }}"
+        alt="Hoppets">
+</div>
 
-<a href="/crear_usuario" class="btn nuevo">
-➕ Nuevo Usuario
-</a>
+<div class="header-usuarios">
+
+    <h1>Gestión de Usuarios</h1>
+
+    <a href="/crear_usuario" class="btn-nuevo">
+        ➕ Nuevo Usuario
+    </a>
 
 </div>
 
