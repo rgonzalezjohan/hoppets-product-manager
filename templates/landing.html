@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión Landing - Hoppets</title>
+
+    <style>
+
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#f1f3f6;
+            display:flex;
+            justify-content:center;
+            align-items:flex-start;
+            min-height:100vh;
+            padding:40px 20px;
+        }
+
+        .config-card{
+            width:100%;
+            max-width:650px;
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 10px 30px rgba(0,0,0,.08);
+        }
+
+        .logo{
+            display:block;
+            margin:0 auto 20px;
+            width:180px;
+        }
+
+        h1{
+            text-align:center;
+            color:#1b2f6b;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#666;
+            margin-bottom:30px;
+        }
+
+        .hero-preview{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .hero-preview img{
+            width:100%;
+            max-width:350px;
+            border-radius:20px;
+            box-shadow:0 10px 25px rgba(0,0,0,.15);
+        }
+
+        form{
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+        }
+
+        input[type="file"]{
+            padding:10px;
+            border:1px solid #ddd;
+            border-radius:10px;
+        }
+
+        .btn-guardar{
+            background:#27c458;
+            color:white;
+            border:none;
+            padding:15px;
+            border-radius:10px;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .btn-guardar:hover{
+            background:#20b24d;
+        }
+
+        .volver{
+            display:block;
+            text-align:center;
+            margin-top:25px;
+            color:#1b2f6b;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        .flash{
+            padding:15px;
+            border-radius:10px;
+            text-align:center;
+            margin-bottom:25px;
+            font-weight:bold;
+        }
+
+        .flash.success{
+            background:#dff5e4;
+            border:1px solid #28a745;
+            color:#155724;
+        }
+
+        .flash.error{
+            background:#f8d7da;
+            border:1px solid #dc3545;
+            color:#721c24;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="config-card">
+
+    <img
+        src="{{ url_for('static', filename='images/logo-negro.png') }}"
+        alt="Hoppets"
+        class="logo"
+    >
+
+    <h1>🖼 Gestión Landing</h1>
+
+    <p class="subtitle">
+        Administra la imagen principal del Hero de la página web.
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="hero-preview">
+
+        <img
+            src="{{ url_for('static', filename='uploads/' + configuracion['hero_imagen']) }}"
+            alt="Imagen Hero Actual"
+        >
+
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="hero_imagen"
+            required
+        >
+
+        <button
+            type="submit"
+            class="btn-guardar"
+        >
+            🖼 Actualizar Hero
+        </button>
+
+    </form>
+
+    <a
+        href="/admin"
+        class="volver"
+    >
+        ← Volver al panel
+    </a>
+
+</div>
+
+</body>
+</html>

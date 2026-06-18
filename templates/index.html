@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body data-whatsapp-enabled="true" data-whatsapp-number="573108998430">
+<body data-whatsapp-enabled="true" data-whatsapp-number="{{ configuracion['whatsapp'] }}">
     <header class="site-header">
         <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
@@ -68,7 +68,7 @@
             <div class="hero-visual" aria-label="Mascota usando productos Hoppets" data-animate="fade-in">
                 <span class="decor decor-paw">✦</span>
                 <span class="decor decor-dot"></span>
-                <img src="{{ url_for('static', filename='images/hero-samoyedo.jpeg') }}"
+                <img src="{{ url_for('static', filename='uploads/' + configuracion['hero_imagen']) }}"
                     alt="Perro feliz representando la experiencia Hoppets">
                 <div class="floating-card">
                     <strong>+100</strong>
@@ -179,7 +179,7 @@
 
             <a
                 class="product-whatsapp"
-                href="https://wa.me/573108998430?text=Hola%20Hoppets,%20quiero%20información%20sobre%20{{ producto['nombre'] }}"
+                href="https://wa.me/{{ configuracion['whatsapp'] }}?text=Hola%20Hoppets,%20quiero%20información%20sobre%20{{ producto['nombre'] }}"
                 target="_blank"
                 rel="noopener"
             >
@@ -297,7 +297,7 @@
                 </p>
                 <div class="hero-actions">
                     <a href="#productos" class="btn btn-primary">Explorar productos</a>
-                    <a href="https://wa.me/573108998430?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20los%20productos%20de%20Hoppets"
+                    <a href="https://wa.me/{{ configuracion['whatsapp'] }}?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20los%20productos%20de%20Hoppets"
                         class="btn btn-light"
                           target="_blank"
                               rel="noopener noreferrer">
@@ -327,23 +327,32 @@
 
             <div class="footer-contact">
                 <h2>Contacto</h2>
-                <a href="mailto:wepetsfordogs@gmail.com">wepetsfordogs@gmail.com</a>
-                <a href="tel:+573108998430">+57 310 899 8430</a>
-                <p>Colombia · Envíos nacionales</p>
+                <a href="mailto:{{ configuracion['correo'] }}">{{ configuracion['correo'] }}</a>
+                <a href="tel:+{{ configuracion['whatsapp'] }}">+{{ configuracion['whatsapp'] }}</a>
+                <p>{{ configuracion['ciudad'] or 'Colombia' }}• Envíos nacionales</p>
+                <p>{{ configuracion['mensaje_contacto'] }}</p>
             </div>
 
             <div class="footer-social">
                 <h2>Síguenos</h2>
                 <div class="social-links">
-                   <a href="https://www.instagram.com/hoppets_col/"
+                   <a href="https://www.instagram.com/{{ configuracion['instagram'].replace('@','') }}/"
                       target="_blank"
                      rel="noopener noreferrer"
                      aria-label="Instagram de Hoppets">
                      IG
                     </a>
+
+                    <a href="{{ configuracion['facebook'] }}"
+                       target="_blank"
+                      rel="noopener noreferrer">
+                     FB
+                    </a>
+
+
                 </div>
                 <a class="footer-cta"
-                   href="https://wa.me/573108998430?text=Hola,%20quiero%20crear%20un%20accesorio%20personalizado%20para%20mi%20mascota"
+                   href="https://wa.me/{{ configuracion['whatsapp'] }}?text=Hola,%20quiero%20crear%20un%20accesorio%20personalizado%20para%20mi%20mascota"
                    target="_blank"
                    rel="noopener noreferrer">
                       Crear accesorio
@@ -354,7 +363,7 @@
         </div>
     </footer>
 
-    <a class="whatsapp-float" href="https://wa.me/573108998430?text=Hola%20Hoppets%2C%20quiero%20conocer%20sus%20productos"
+    <a class="whatsapp-float" href="https://{{ configuracion['whatsapp'] }}?text=Hola%20Hoppets%2C%20quiero%20conocer%20sus%20productos"
         target="_blank" rel="noopener" aria-label="Escribir a Hoppets por WhatsApp">
         <span aria-hidden="true">WA</span>
     </a>

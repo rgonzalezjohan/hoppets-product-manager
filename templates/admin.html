@@ -231,6 +231,27 @@ tr:hover{
     border:1px solid #ef4444;
 }
 
+.btn-configuracion{
+    display:inline-block;
+    background:#f59e0b;
+    color:white;
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:12px;
+    font-weight:700;
+    transition:all .3s ease;
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+.btn-configuracion:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+
+.btn-configuracion{
+    background:#f59e0b;
+}
+
 </style>
 
 </head>
@@ -316,6 +337,14 @@ tr:hover{
             </a>
 
         {% endif %}
+
+        <a href="/configuracion" class="btn-configuracion">
+            ⚙️ Configuración
+        </a>
+
+        <a href="/landing" class="btn-configuracion">
+            🖼 Landing
+        </a>
 
         <a href="/logout" class="btn-salir">
             Cerrar sesión

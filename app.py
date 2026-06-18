@@ -245,14 +245,64 @@ def restaurar_producto(id):
     conn.commit()
     conn.close()
 
+def obtener_configuracion():
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    config = conn.execute(
+        "SELECT * FROM configuracion WHERE id = 1"
+    ).fetchone()
+
+    conn.close()
+
+    return config
+
+def actualizar_configuracion(
+    whatsapp,
+    instagram,
+    correo,
+    facebook,
+    ciudad,
+    mensaje_contacto
+):
+
+    conn = sqlite3.connect("database/products.db")
+
+    conn.execute("""
+        UPDATE configuracion
+        SET
+            whatsapp = ?,
+            instagram = ?,
+            correo = ?,
+            facebook = ?,
+            ciudad = ?,
+            mensaje_contacto = ?
+        WHERE id = 1
+    """,
+    (
+        whatsapp,
+        instagram,
+        correo,
+        facebook,
+        ciudad,
+        mensaje_contacto
+    ))
+
+    conn.commit()
+    conn.close()
+
 @app.route("/")
 def home():
 
     productos = get_productos()
 
+    configuracion = obtener_configuracion()
+
     return render_template(
         "index.html",
-        productos=productos
+        productos=productos,
+        configuracion=configuracion
     )
 
 @app.route("/admin")
@@ -631,6 +681,91 @@ def password(id):
         usuario=usuario
     )
 
+@app.route("/configuracion", methods=["GET", "POST"])
+def configuracion():
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        whatsapp = request.form["whatsapp"]
+        instagram = request.form["instagram"]
+        correo = request.form["correo"]
+
+        facebook = request.form["facebook"]
+        ciudad = request.form["ciudad"]
+        mensaje_contacto = request.form["mensaje_contacto"]
+
+        actualizar_configuracion(
+            whatsapp,
+            instagram,
+            correo,
+            facebook,
+            ciudad,
+            mensaje_contacto
+        )
+
+        flash(
+            "⚙️ Configuración actualizada correctamente",
+            "success"
+        )
+
+        return redirect("/configuracion")
+
+    configuracion = obtener_configuracion()
+
+    return render_template(
+           "configuracion.html",
+    configuracion=configuracion
+)
+
+@app.route("/landing", methods=["GET", "POST"])
+def landing():
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        archivo = request.files["hero_imagen"]
+
+        if archivo.filename != "":
+
+            archivo.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    archivo.filename
+                )
+            )
+
+            conn = sqlite3.connect("database/products.db")
+
+            conn.execute(
+                """
+                UPDATE configuracion
+                SET hero_imagen = ?
+                WHERE id = 1
+                """,
+                (archivo.filename,)
+            )
+
+            conn.commit()
+            conn.close()
+
+            flash(
+                "🖼 Hero actualizada correctamente",
+                "success"
+            )
+
+        return redirect("/landing")
+
+    configuracion = obtener_configuracion()
+
+    return render_template(
+        "landing.html",
+        configuracion=configuracion
+    )
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
