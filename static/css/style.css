@@ -839,13 +839,18 @@ h3 {
 }
 
 .gallery-grid img {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1,2;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-card);
-    height: 100%;
-    object-fit: cover;
-    transition: filter 0.25s ease, transform 0.25s ease;
+
     width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center top;
+
+    transition: filter 0.25s ease,
+                transform 0.25s ease;
 }
 
 .gallery-grid img:hover {
@@ -855,6 +860,14 @@ h3 {
 
 .gallery-large {
     grid-column: 1 / -1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
 }
 
 .final-cta {

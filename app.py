@@ -258,6 +258,40 @@ def obtener_configuracion():
 
     return config
 
+def obtener_galeria():
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    imagenes = conn.execute(
+        """
+        SELECT *
+        FROM galeria
+        ORDER BY id DESC
+        """
+    ).fetchall()
+
+    conn.close()
+
+    return imagenes
+
+def eliminar_imagen_galeria(id):
+
+    conn = sqlite3.connect("database/products.db")
+
+    conn.execute(
+        """
+        DELETE FROM galeria
+        WHERE id = ?
+        """,
+        (id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+
+
 def actualizar_configuracion(
     whatsapp,
     instagram,
@@ -299,10 +333,13 @@ def home():
 
     configuracion = obtener_configuracion()
 
+    galeria = obtener_galeria()
+
     return render_template(
         "index.html",
         productos=productos,
-        configuracion=configuracion
+        configuracion=configuracion,
+        galeria=galeria
     )
 
 @app.route("/admin")
@@ -766,6 +803,104 @@ def landing():
         "landing.html",
         configuracion=configuracion
     )
+
+@app.route("/galeria", methods=["GET", "POST"])
+def galeria():
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    if request.method == "POST":
+
+        archivo = request.files["imagen"]
+        descripcion = request.form["descripcion"]
+
+        if archivo.filename != "":
+
+            archivo.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    archivo.filename
+                )
+            )
+
+            conn = sqlite3.connect("database/products.db")
+
+            conn.execute(
+            """
+             INSERT INTO galeria
+             (imagen, descripcion)
+              VALUES (?, ?)
+               """,
+             (
+                archivo.filename,
+                descripcion
+              )
+              )
+
+            conn.commit()
+            conn.close()
+
+            flash(
+                "🖼 Imagen agregada correctamente",
+                "success"
+            )
+
+        return redirect("/galeria")
+
+    imagenes = obtener_galeria()
+
+    return render_template(
+        "galeria.html",
+        imagenes=imagenes
+    )
+
+@app.route("/eliminar-imagen/<int:id>")
+def eliminar_imagen(id):
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    conn = sqlite3.connect("database/products.db")
+
+    imagen = conn.execute(
+        """
+        SELECT imagen
+        FROM galeria
+        WHERE id = ?
+        """,
+        (id,)
+    ).fetchone()
+
+    if imagen:
+
+        ruta = os.path.join(
+            app.config["UPLOAD_FOLDER"],
+            imagen[0]
+        )
+
+        if os.path.exists(ruta):
+            os.remove(ruta)
+
+        conn.execute(
+            """
+            DELETE FROM galeria
+            WHERE id = ?
+            """,
+            (id,)
+        )
+
+        conn.commit()
+
+    conn.close()
+
+    flash(
+        "🗑 Imagen eliminada correctamente",
+        "success"
+    )
+
+    return redirect("/galeria")
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",

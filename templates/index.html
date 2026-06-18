@@ -269,22 +269,21 @@
             </div>
 
             <div class="gallery-grid" data-animate="fade-up">
-                <button class="gallery-item gallery-large" type="button">
-                    <img src="{{ url_for('static', filename='images/hero-samoyedo.jpeg') }}"
-                        alt="Perro feliz de Hoppets">
-                </button>
-                <button class="gallery-item" type="button">
-                    <img src="{{ url_for('static', filename='images/bandana-love.jpeg') }}"
-                        alt="Bandana Hoppets con diseño amoroso">
-                </button>
-                <button class="gallery-item" type="button">
-                    <img src="{{ url_for('static', filename='images/cama-sandia.jpeg') }}"
-                        alt="Cama Hoppets con forma de sandía">
-                </button>
-                <button class="gallery-item" type="button">
-                    <img src="{{ url_for('static', filename='images/gato-cama.jpeg') }}"
-                        alt="Gato descansando en producto Hoppets">
-                </button>
+                {% for imagen in galeria %}
+
+                     <button
+                        class="gallery-item {% if loop.first %}gallery-large{% endif %}"
+                        type="button"
+                             >
+
+                      <img
+                          src="{{ url_for('static', filename='uploads/' + imagen['imagen']) }}"
+                          alt="{{ imagen['descripcion'] }}"
+                            >
+
+                       </button>
+
+                {% endfor %}
             </div>
         </section>
 
