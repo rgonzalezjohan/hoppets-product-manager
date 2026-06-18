@@ -28,10 +28,13 @@ body{
 }
 
 .stats-container{
-    display:flex;
-    justify-content:center;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
     gap:30px;
     margin-bottom:35px;
+    max-width:1400px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .stat-card{
@@ -64,6 +67,18 @@ body{
 
 .stat-card:nth-child(3) p{
     color:#2563eb;
+}
+
+.stat-card:nth-child(4) p{
+    color:#7c3aed;
+}
+
+.stat-card:nth-child(5) p{
+    color:#dc2626;
+}
+
+.stat-card:nth-child(6) p{
+    color:#059669;
 }
 
 .acciones-superiores{
@@ -149,6 +164,33 @@ tr:hover{
     font-weight:bold;
 }
 
+.usuario-logueado{
+    text-align:center;
+    color:#64748b;
+    margin-top:-10px;
+    margin-bottom:20px;
+    font-size:18px;
+}
+
+.buscador-container{
+    margin-bottom:20px;
+    text-align:right;
+}
+
+#buscador{
+    width:300px;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    font-size:15px;
+}
+
+#buscador:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 10px rgba(37,99,235,.2);
+}
+
 </style>
 
 </head>
@@ -161,24 +203,43 @@ tr:hover{
         🐾 Panel Administrativo Hoppets
     </h1>
 
+    <p class="usuario-logueado">
+    👋 Bienvenido, {{ usuario_actual }}
+    </p>
+
     <div class="stats-container">
 
-        <div class="stat-card">
-            <h3>🐾 Activos</h3>
-            <p>{{ total_activos }}</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>📦 Ocultos</h3>
-            <p>{{ total_ocultos }}</p>
-        </div>
-
-        <div class="stat-card">
-            <h3>📊 Total</h3>
-            <p>{{ total_productos }}</p>
-        </div>
-
+    <div class="stat-card">
+        <h3>🐾 Activos</h3>
+        <p>{{ total_activos }}</p>
     </div>
+
+    <div class="stat-card">
+        <h3>📦 Ocultos</h3>
+        <p>{{ total_ocultos }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>📊 Total</h3>
+        <p>{{ total_productos }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>👥 Usuarios</h3>
+        <p>{{ total_usuarios }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>👑 Superadmins</h3>
+        <p>{{ total_superadmins }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>🧑‍💻 Editores</h3>
+        <p>{{ total_editores }}</p>
+    </div>
+
+</div>
 
     <div class="acciones-superiores">
 
@@ -190,55 +251,107 @@ tr:hover{
             Productos Ocultos
         </a>
 
+        {% if rol_actual == "superadmin" %}
+
+            <a href="/usuarios" class="btn-secundario">
+             Usuarios
+            </a>
+
+        {% endif %}
+
         <a href="/logout" class="btn-salir">
             Cerrar sesión
         </a>
 
     </div>
 
-    <table>
+    <div class="buscador-container">
 
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-        </tr>
+    <input
+        type="text"
+        id="buscador"
+        placeholder="🔍 Buscar por nombre..."
+    >
 
-        {% for producto in productos %}
+</div>
 
-        <tr>
+<table id="tabla-productos">
 
-            <td>{{ producto['id'] }}</td>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+    </tr>
 
-            <td>{{ producto['nombre'] }}</td>
+    {% for producto in productos %}
 
-            <td class="precio">
-                ${{ "{:,.0f}".format(producto['precio']) }}
-            </td>
+    <tr>
 
-            <td>
+        <td>{{ producto['id'] }}</td>
 
-                <a
-                    href="/editar/{{ producto['id'] }}"
-                    class="btn-editar">
-                    ✏️ Editar
-                </a>
+        <td>{{ producto['nombre'] }}</td>
 
-                <a
-                    href="/eliminar/{{ producto['id'] }}"
-                    class="btn-eliminar"
-                    onclick="return confirm('¿Está seguro de ocultar este producto?')">
-                    🗑️ Eliminar
-                </a>
+        <td class="precio">
+            ${{ "{:,.0f}".format(producto['precio']) }}
+        </td>
 
-            </td>
+        <td>
 
-        </tr>
+            <a
+                href="/editar/{{ producto['id'] }}"
+                class="btn-editar">
+                ✏️ Editar
+            </a>
 
-        {% endfor %}
+            <a
+                href="/eliminar/{{ producto['id'] }}"
+                class="btn-eliminar"
+                onclick="return confirm('¿Está seguro de ocultar este producto?')">
+                🗑️ Eliminar
+            </a>
 
-    </table>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<script>
+
+const buscador = document.getElementById("buscador");
+
+buscador.addEventListener("keyup", function() {
+
+    let texto = this.value.toLowerCase();
+
+    let filas = document.querySelectorAll(
+        "#tabla-productos tr"
+    );
+
+    filas.forEach((fila, index) => {
+
+        if (index === 0) {
+            return;
+        }
+
+        let nombre = fila.children[1]
+            .textContent
+            .toLowerCase();
+
+        if (nombre.includes(texto)) {
+            fila.style.display = "";
+        } else {
+            fila.style.display = "none";
+        }
+
+    });
+
+});
+
+</script>
 
 </div>
 

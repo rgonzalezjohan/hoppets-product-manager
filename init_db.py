@@ -60,7 +60,21 @@ VALUES (
     'bandana-love.jpeg'
 )
 """)
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    rol TEXT DEFAULT 'editor'
+)
+""")
 
+cursor.execute("""
+INSERT OR IGNORE INTO usuarios
+(usuario, password, rol)
+VALUES
+('admin', '123456', 'superadmin')
+""")
 
 conn.commit()
 conn.close()

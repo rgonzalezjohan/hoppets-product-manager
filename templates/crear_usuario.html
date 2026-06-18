@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Nuevo Usuario</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f7fa;
+    padding:40px;
+}
+
+.card{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+h1{
+    color:#1c274c;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-top:5px;
+}
+
+button{
+    margin-top:20px;
+    width:100%;
+    padding:14px;
+    background:#22c55e;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+</style>
+</head>
+<body>
+
+<div class="card">
+
+<h1>➕ Nuevo Usuario</h1>
+
+<form method="POST">
+
+<label>Usuario</label>
+<input type="text" name="usuario" required>
+
+<label>Contraseña</label>
+<input type="password" name="password" required>
+<label>Rol</label>
+
+<select name="rol" required>
+
+    <option value="editor">
+        Editor
+    </option>
+
+    <option value="superadmin">
+        Superadministrador
+    </option>
+
+</select>
+
+<button type="submit">
+Guardar Usuario
+</button>
+
+</form>
+
+<br>
+
+<a href="/usuarios">
+← Volver
+</a>
+
+</div>
+
+</body>
+</html>

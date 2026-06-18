@@ -42,6 +42,161 @@ def get_productos_ocultos():
 
     return productos
 
+def total_usuarios():
+
+    conn = sqlite3.connect("database/products.db")
+
+    total = conn.execute(
+        "SELECT COUNT(*) FROM usuarios"
+    ).fetchone()[0]
+
+    conn.close()
+
+    return total
+
+
+def total_superadmins():
+
+    conn = sqlite3.connect("database/products.db")
+
+    total = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM usuarios
+        WHERE rol = 'superadmin'
+        """
+    ).fetchone()[0]
+
+    conn.close()
+
+    return total
+
+
+def total_editores():
+
+    conn = sqlite3.connect("database/products.db")
+
+    total = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM usuarios
+        WHERE rol = 'editor'
+        """
+    ).fetchone()[0]
+
+    conn.close()
+
+    return total
+
+def get_usuarios():
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    usuarios = conn.execute(
+    """
+    SELECT id, usuario, rol
+    FROM usuarios
+    ORDER BY usuario
+    """
+).fetchall()
+
+    conn.close()
+
+    return usuarios
+
+def obtener_rol(usuario):
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    resultado = conn.execute(
+        """
+        SELECT rol
+        FROM usuarios
+        WHERE usuario = ?
+        """,
+        (usuario,)
+    ).fetchone()
+
+    conn.close()
+
+    if resultado:
+        return resultado["rol"]
+
+    return None
+
+def crear_usuario(usuario, password):
+
+    conn = sqlite3.connect("database/products.db")
+
+    conn.execute(
+        """
+        INSERT INTO usuarios
+        (usuario, password, rol)
+        VALUES (?, ?, ?)
+        """,
+        (usuario, password, rol)
+    )
+
+    conn.commit()
+    conn.close()
+
+def eliminar_usuario(id):
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    usuario = conn.execute(
+        """
+        SELECT usuario
+        FROM usuarios
+        WHERE id = ?
+        """,
+        (id,)
+    ).fetchone()
+
+    if not usuario:
+        conn.close()
+        return
+
+    # No permitir borrar admin
+    if usuario["usuario"] == "admin":
+        conn.close()
+        return
+
+    # No permitir borrarse a sí mismo
+    if usuario["usuario"] == session.get("usuario"):
+        conn.close()
+        return
+
+    conn.execute(
+        """
+        DELETE FROM usuarios
+        WHERE id = ?
+        """,
+        (id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+def cambiar_password(id, password):
+
+    conn = sqlite3.connect("database/products.db")
+
+    conn.execute(
+        """
+        UPDATE usuarios
+        SET password = ?
+        WHERE id = ?
+        """,
+        (password, id)
+    )
+
+    conn.commit()
+    conn.close()
+
 def agregar_producto(nombre, descripcion, precio, imagen):
 
     conn = sqlite3.connect("database/products.db")
@@ -103,29 +258,54 @@ def home():
 @app.route("/admin")
 def admin():
 
-    if not session.get("admin"):
+    if not session.get("usuario"):
         return redirect("/login")
 
     productos = get_productos()
-
     total_activos = len(productos)
 
     productos_ocultos = get_productos_ocultos()
-
     total_ocultos = len(productos_ocultos)
 
     total_productos = total_activos + total_ocultos
+
+    total_usuarios_sistema = total_usuarios()
+    total_superadmins_sistema = total_superadmins()
+    total_editores_sistema = total_editores()
+
+    usuario_actual = session.get("usuario")
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    usuario_info = conn.execute(
+        """
+        SELECT rol
+        FROM usuarios
+        WHERE usuario = ?
+        """,
+        (usuario_actual,)
+    ).fetchone()
+
+    conn.close()
+
+    rol_actual = usuario_info["rol"]
 
     return render_template(
         "admin.html",
         productos=productos,
         total_activos=total_activos,
         total_ocultos=total_ocultos,
-        total_productos=total_productos
+        total_productos=total_productos,
+        total_usuarios=total_usuarios_sistema,
+        total_superadmins=total_superadmins_sistema,
+        total_editores=total_editores_sistema,
+        usuario_actual=usuario_actual,
+        rol_actual=rol_actual
     )
 @app.route("/eliminar/<int:id>")
 def eliminar(id):
-    if not session.get("admin"):
+    if not session.get("usuario"):
         return redirect("/login")
 
     eliminar_producto(id)
@@ -135,7 +315,7 @@ def eliminar(id):
 @app.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
 
-    if not session.get("admin"):
+    if not session.get("usuario"):
         return redirect("/login")
 
     conn = sqlite3.connect("database/products.db")
@@ -201,7 +381,7 @@ def editar(id):
 @app.route("/agregar", methods=["GET", "POST"])
 def agregar():
 
-    if not session.get("admin"):
+    if not session.get("usuario"):
         return redirect("/login")
 
     if request.method == "POST":
@@ -255,6 +435,71 @@ def restaurar(id):
 
     return redirect("/ocultos")
 
+@app.route("/usuarios")
+def usuarios():
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    rol = obtener_rol(session.get("usuario"))
+
+    if rol != "superadmin":
+        return redirect("/admin")
+
+    usuarios = get_usuarios()
+
+    return render_template(
+        "usuarios.html",
+        usuarios=usuarios,
+        rol_actual=rol
+    )
+
+@app.route("/cambiar_rol/<int:id>")
+def cambiar_rol(id):
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    if obtener_rol(session.get("usuario")) != "superadmin":
+        return redirect("/admin")
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    usuario = conn.execute(
+        """
+        SELECT *
+        FROM usuarios
+        WHERE id = ?
+        """,
+        (id,)
+    ).fetchone()
+
+    if usuario["usuario"] == "admin":
+        conn.close()
+        return redirect("/usuarios")
+
+    nuevo_rol = (
+        "editor"
+        if usuario["rol"] == "superadmin"
+        else "superadmin"
+    )
+
+    conn.execute(
+        """
+        UPDATE usuarios
+        SET rol = ?
+        WHERE id = ?
+        """,
+        (nuevo_rol, id)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/usuarios")
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -263,9 +508,24 @@ def login():
         usuario = request.form["usuario"]
         password = request.form["password"]
 
-        if usuario == "admin" and password == "123456":
+        conn = sqlite3.connect("database/products.db")
+        conn.row_factory = sqlite3.Row
 
-            session["usuario"] = usuario
+        usuario_db = conn.execute(
+            """
+            SELECT * FROM usuarios
+            WHERE usuario = ?
+            AND password = ?
+            """,
+            (usuario, password)
+        ).fetchone()
+
+        conn.close()
+
+        if usuario_db:
+
+            session["usuario"] = usuario_db["usuario"]
+            session["rol"] = usuario_db["rol"]
 
             return redirect("/admin")
 
@@ -278,6 +538,68 @@ def logout():
 
     return redirect("/login")
 
+@app.route("/crear_usuario", methods=["GET", "POST"])
+def crear_usuario_web():
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    rol = obtener_rol(session.get("usuario"))
+
+    if rol != "superadmin":
+        return redirect("/admin")
+
+    if request.method == "POST":
+
+        usuario = request.form["usuario"]
+        password = request.form["password"]
+        rol = request.form["rol"]
+
+        crear_usuario(usuario,password,rol)
+
+        return redirect("/usuarios")
+
+    return render_template("crear_usuario.html")
+
+@app.route("/password/<int:id>", methods=["GET", "POST"])
+def password(id):
+
+    if not session.get("usuario"):
+        return redirect("/login")
+
+    rol = obtener_rol(session.get("usuario"))
+
+    if rol != "superadmin":
+        return redirect("/admin")
+
+    conn = sqlite3.connect("database/products.db")
+    conn.row_factory = sqlite3.Row
+
+    usuario = conn.execute(
+        "SELECT * FROM usuarios WHERE id = ?",
+        (id,)
+    ).fetchone()
+
+    if request.method == "POST":
+
+        nueva_password = request.form["password"]
+
+        cambiar_password(id, nueva_password)
+
+        conn.close()
+
+        return redirect("/usuarios")
+
+    conn.close()
+
+    return render_template(
+        "password.html",
+        usuario=usuario
+    )
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True
+    )
