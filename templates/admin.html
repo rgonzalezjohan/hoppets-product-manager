@@ -423,29 +423,26 @@ tr:hover{
 
 const buscador = document.getElementById("buscador");
 
-buscador.addEventListener("keyup", function() {
+buscador.addEventListener("keyup", function () {
 
-    let texto = this.value.toLowerCase();
+    const texto = this.value.toLowerCase();
 
-    let filas = document.querySelectorAll(
+    const filas = document.querySelectorAll(
         "#tabla-productos tr"
     );
 
     filas.forEach((fila, index) => {
 
-        if (index === 0) {
-            return;
-        }
+        if (index === 0) return;
 
-        let nombre = fila.children[1]
-            .textContent
+        const nombre = fila.children[2]
+            .innerText
             .toLowerCase();
 
-        if (nombre.includes(texto)) {
-            fila.style.display = "";
-        } else {
-            fila.style.display = "none";
-        }
+        fila.style.display =
+            nombre.includes(texto)
+                ? ""
+                : "none";
 
     });
 
