@@ -12,7 +12,9 @@ cloudinary.config(
     api_key=os.getenv("CLOUDINARY_API_KEY"),
     api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
-
+print("CLOUD:", os.getenv("CLOUDINARY_CLOUD_NAME"))
+print("KEY:", os.getenv("CLOUDINARY_API_KEY"))
+print("SECRET:", os.getenv("CLOUDINARY_API_SECRET"))
 
 app.secret_key = "hoppets_admin_2025"
 
