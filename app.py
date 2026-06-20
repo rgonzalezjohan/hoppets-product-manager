@@ -3,8 +3,17 @@ import os
 from flask import Flask, render_template, request, redirect, session, flash
 import os
 import sqlite3
+import cloudinary
+import cloudinary.uploader
 
 app = Flask(__name__)
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
+
+
 app.secret_key = "hoppets_admin_2025"
 
 UPLOAD_FOLDER = "static/uploads"
@@ -429,14 +438,11 @@ def editar(id):
         # Si el usuario seleccionó una nueva imagen
         if archivo and archivo.filename != "":
 
-            nombre_imagen = archivo.filename
-
-            archivo.save(
-                os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    nombre_imagen
-                )
+            resultado = cloudinary.uploader.upload(
+                archivo
             )
+
+            nombre_imagen = resultado["secure_url"]
 
         conn.execute(
             """
@@ -459,7 +465,10 @@ def editar(id):
         conn.commit()
         conn.close()
 
-        flash("✏️ Producto actualizado correctamente", "success")
+        flash(
+            "✏️ Producto actualizado correctamente",
+            "success"
+        )
 
         return redirect("/admin")
 
@@ -483,21 +492,18 @@ def agregar():
 
         archivo = request.files["imagen"]
 
-        nombre_imagen = archivo.filename
+        resultado = cloudinary.uploader.upload(
+        archivo
+         )
 
-        archivo.save(
-            os.path.join(
-                app.config["UPLOAD_FOLDER"],
-                nombre_imagen
-            )
-        )
+        url_imagen = resultado["secure_url"]
 
         agregar_producto(
-            nombre,
-            descripcion,
-            precio,
-            nombre_imagen
-        )
+         nombre,
+         descripcion,
+         precio,
+         url_imagen
+         )
 
         flash(
     "✅ Producto agregado correctamente",
@@ -769,12 +775,11 @@ def landing():
 
         if archivo.filename != "":
 
-            archivo.save(
-                os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    archivo.filename
-                )
+            resultado = cloudinary.uploader.upload(
+                archivo
             )
+
+            url_imagen = resultado["secure_url"]
 
             conn = sqlite3.connect("database/products.db")
 
@@ -784,7 +789,7 @@ def landing():
                 SET hero_imagen = ?
                 WHERE id = 1
                 """,
-                (archivo.filename,)
+                (url_imagen,)
             )
 
             conn.commit()
@@ -817,26 +822,25 @@ def galeria():
 
         if archivo.filename != "":
 
-            archivo.save(
-                os.path.join(
-                    app.config["UPLOAD_FOLDER"],
-                    archivo.filename
-                )
+            resultado = cloudinary.uploader.upload(
+                archivo
             )
+
+            url_imagen = resultado["secure_url"]
 
             conn = sqlite3.connect("database/products.db")
 
             conn.execute(
-            """
-             INSERT INTO galeria
-             (imagen, descripcion)
-              VALUES (?, ?)
-               """,
-             (
-                archivo.filename,
-                descripcion
-              )
-              )
+                """
+                INSERT INTO galeria
+                (imagen, descripcion)
+                VALUES (?, ?)
+                """,
+                (
+                    url_imagen,
+                    descripcion
+                )
+            )
 
             conn.commit()
             conn.close()
@@ -863,35 +867,15 @@ def eliminar_imagen(id):
 
     conn = sqlite3.connect("database/products.db")
 
-    imagen = conn.execute(
+    conn.execute(
         """
-        SELECT imagen
-        FROM galeria
+        DELETE FROM galeria
         WHERE id = ?
         """,
         (id,)
-    ).fetchone()
+    )
 
-    if imagen:
-
-        ruta = os.path.join(
-            app.config["UPLOAD_FOLDER"],
-            imagen[0]
-        )
-
-        if os.path.exists(ruta):
-            os.remove(ruta)
-
-        conn.execute(
-            """
-            DELETE FROM galeria
-            WHERE id = ?
-            """,
-            (id,)
-        )
-
-        conn.commit()
-
+    conn.commit()
     conn.close()
 
     flash(
@@ -900,6 +884,15 @@ def eliminar_imagen(id):
     )
 
     return redirect("/galeria")
+
+@app.route("/test-cloudinary")
+def test_cloudinary():
+
+    resultado = cloudinary.uploader.upload(
+        "static/images/logo-negro.png"
+    )
+
+    return resultado["secure_url"]
 
 if __name__ == "__main__":
     app.run(

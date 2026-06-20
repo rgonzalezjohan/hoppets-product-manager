@@ -120,7 +120,7 @@ required>
 <label>Imagen actual</label>
 
 <img
-    src="{{ url_for('static', filename='uploads/' + producto['imagen']) }}"
+    src="{{ producto['imagen'] }}"
     style="width:200px;border-radius:10px;margin-bottom:15px;display:block;"
 >
 

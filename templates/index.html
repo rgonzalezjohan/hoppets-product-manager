@@ -68,8 +68,8 @@
             <div class="hero-visual" aria-label="Mascota usando productos Hoppets" data-animate="fade-in">
                 <span class="decor decor-paw">✦</span>
                 <span class="decor decor-dot"></span>
-                <img src="{{ url_for('static', filename='uploads/' + configuracion['hero_imagen']) }}"
-                    alt="Perro feliz representando la experiencia Hoppets">
+                <img src="{{ configuracion['hero_imagen'] }}"
+                     alt="Perro feliz representando la experiencia Hoppets">
                 <div class="floating-card">
                     <strong>+100</strong>
                     <span>Mascotas consentidas</span>
@@ -158,7 +158,7 @@
 <article class="product-card" data-animate="fade-up">
 
 <img
-    src="{{ url_for('static', filename='uploads/' + producto['imagen']) }}"
+    src="{{ producto['imagen'] }}"
     alt="{{ producto['nombre'] }}"
 >
                 <div class="product-body">
@@ -277,7 +277,7 @@
                              >
 
                       <img
-                          src="{{ url_for('static', filename='uploads/' + imagen['imagen']) }}"
+                          src="{{ imagen['imagen'] }}"
                           alt="{{ imagen['descripcion'] }}"
                             >
 
